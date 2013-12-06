@@ -1,11 +1,27 @@
 #!/usr/bin/osascript
--- lswin - list process name, title, size, and dimensions of open windows
--- Andrew Ho (andrew@zeuscat.com)
+(*
+ * lswin - list process name, title, size, and dimensions of open windows
+ * Andrew Ho (andrew@zeuscat.com)
+ *
+ * Usage: lswin [pattern]
+ *
+ * The pattern is a string that case-insensitively matches any substring
+ * in "Application Name - Window Title" of any windows visible in the
+ * current space. If no pattern is specified, all windows in the current
+ * space are shown.
+ *
+ * Example: lswin Adium
+ *
+ * This AppleScript requires the "Enable access for assistive devices"
+ * setting to be enabled in the "Accessibility" System Preferences pane
+ * in OS X pre-Mavericks. To eanble assistive UI scripting in Mavericks,
+ * see this Apple KB article: http://support.apple.com/kb/HT5914
+ *)
 
 on run _argv
     set _argc to count of _argv
-    set _windowName to ""
-    if (_argc >= 1) then set _windowName to item 1 of _argv
+    set _pattern to ""
+    if (_argc >= 1) then set _pattern to item 1 of _argv
     set _output to ""
     tell application "System Events"
         set _processes to application processes
@@ -14,7 +30,7 @@ on run _argv
             tell _process
                 repeat with _window in windows
                     set _label to _processName & " - " & name of _window
-                    if (_windowName = "" or _label contains _windowName)
+                    if (_pattern = "" or _label contains _pattern)
                         copy position of _window to [_x, _y]
                         copy size of _window to [_width, _height]
                         if (_output is not "") then set _output to _output & linefeed
@@ -26,3 +42,35 @@ on run _argv
     end tell
     set result to _output
 end run
+
+(*
+ * Copyright (c) 2013, Andrew Ho
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of Andrew Ho nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *)
