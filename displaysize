@@ -1,0 +1,12 @@
+#!/usr/bin/osascript
+-- displaysize - display the size of the current (or all) displays
+-- Andrew Ho (andrew@zeuscat.com)
+
+on run
+    tell application "Finder"
+        copy bounds of window of desktop to [_x1, _y1, _x2, _y2]
+        set _width to _x2 - _x1
+        set _height to _y2 - _y1
+        set result to "" & _width & " " & _height
+    end tell
+end run
