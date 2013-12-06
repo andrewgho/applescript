@@ -14,7 +14,7 @@
  *
  * This AppleScript requires the "Enable access for assistive devices"
  * setting to be enabled in the "Accessibility" System Preferences pane
- * in OS X pre-Mavericks. To eanble assistive UI scripting in Mavericks,
+ * in OS X pre-Mavericks. To enable assistive UI scripting in Mavericks,
  * see this Apple KB article: http://support.apple.com/kb/HT5914
  *)
 
