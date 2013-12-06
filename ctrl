@@ -1,0 +1,15 @@
+#!/usr/bin/osascript
+-- ctrl - send Ctrl+key from command line, for example, to move spaces
+-- Andrew Ho (andrew@zeuscat.com)
+
+on run _argv
+    set _argc to count of _argv
+    if (_argc = 0)
+        set result to "usage: ctrl keystroke"
+    else
+        set _keystroke to character 1 of item 1 of _argv
+        tell application "System Events"
+            keystroke _keystroke using {control down}
+        end tell
+    end if
+end run

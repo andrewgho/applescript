@@ -1,0 +1,28 @@
+#!/usr/bin/osascript
+-- lswin - list process name, title, size, and dimensions of open windows
+-- Andrew Ho (andrew@zeuscat.com)
+
+on run _argv
+    set _argc to count of _argv
+    set _windowName to ""
+    if (_argc >= 1) then set _windowName to item 1 of _argv
+    set _output to ""
+    tell application "System Events"
+        set _processes to application processes
+        repeat with _process in _processes
+            set _processName to name of _process
+            tell _process
+                repeat with _window in windows
+                    set _label to _processName & " - " & name of _window
+                    if (_windowName = "" or _label contains _windowName)
+                        copy position of _window to [_x, _y]
+                        copy size of _window to [_width, _height]
+                        if (_output is not "") then set _output to _output & linefeed
+                        set _output to _output & _label & " - " & _x & " " & _y & " " & _width & " " & _height
+                    end if
+                end repeat
+            end tell
+        end repeat
+    end tell
+    set result to _output
+end run

@@ -1,0 +1,40 @@
+#!/usr/bin/osascript
+-- movewin - move a window to a position, and optionally resize it
+-- Andrew Ho (andrew@zeuscat.com)
+
+on run _argv
+    set _argc to count of _argv
+    if (_argc < 3) then
+        set result to "usage: movewin windowName x y [width height]"
+    else
+        set _windowName to item 1 of _argv
+        set _x to item 2 of _argv
+        set _y to item 3 of _argv
+        if (_argc >= 5) then
+            set _width to item 4 of _argv
+            set _height to item 5 of _argv
+        else
+            set _width to missing value
+            set _height to missing value
+        end
+        set _finished to false
+        tell application "System Events"
+            set _processes to application processes
+            repeat with _process in _processes
+                set _processName to name of _process
+                tell _process
+                    repeat with _window in windows
+                        set _label to _processName & " - " & name of _window
+                        if (_label contains _windowName)
+                            set position of _window to {_x, _y}
+                            if (_width is not missing value) then set size of _window to {_width, _height}
+                            _finished = true
+                        end if
+                        if _finished then exit repeat
+                    end repeat
+                end tell
+            if _finished then exit repeat
+            end repeat
+        end tell
+    end if
+end run
