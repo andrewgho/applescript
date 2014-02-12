@@ -43,7 +43,7 @@ Andrew Ho (<andrew@zeuscat.com>)
 License
 -------
 
-    Copyright (c) 2013, Andrew Ho
+    Copyright (c) 2013-2014, Andrew Ho
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
